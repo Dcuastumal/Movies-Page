@@ -1,0 +1,19 @@
+{
+  "name": "movies-page",
+  "version": "1.0.0",
+  "description": "I make this page with help of Platzi's courses ",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Dcuastumal/Movies-Page.git"
+  },
+  "author": "David Alejandro Cuastumal Bucheli",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Dcuastumal/Movies-Page/issues"
+  },
+  "homepage": "https://github.com/Dcuastumal/Movies-Page#readme"
+}
