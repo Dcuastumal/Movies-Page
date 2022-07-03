@@ -1,0 +1,12 @@
+/* Footer */
+footer {
+    background-color: var(--blue-medium-3);
+    color: var(--blue-light-2);
+    text-align: center;
+    height: 48px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  

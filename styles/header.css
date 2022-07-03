@@ -1,0 +1,60 @@
+
+/* Header */
+.header-container {
+    padding-top: 40px;
+  }
+  
+  .header-container--long {
+    background-image: url('https://pics.filmaffinity.com/Deadpool-777527803-large.jpg');
+    background: linear-gradient(180deg, rgba(0, 0, 0, 0.35) 19.27%, rgba(0, 0, 0, 0) 29.17%), url(https://pics.filmaffinity.com/Deadpool-777527803-large.jpg);
+    background-size: cover !important;
+    height: 480px;
+    position: fixed;
+    top: 0;
+    width: 100%;
+  }
+  
+  .header-container--categoryView {
+    background: linear-gradient(180deg, rgba(238, 204, 117, 0.5) 0%, rgba(238, 204, 117, 0) 72.92%);
+  } 
+  
+  .header-title {
+    margin-bottom: 16px;
+  }
+  
+  .header-arrow {
+    font-weight: var(--font-weight-text2);
+    font-size: 36px;
+    margin-bottom: 16px;
+    cursor: pointer;
+    display: inline-block;
+  }
+  .header-arrow--white {
+    color: var(--blue-light-1);
+  }
+  
+  .header-searchForm {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    flex-wrap: nowrap;
+  }
+  
+  .header-searchForm input {
+    height: 48px;
+    width: 100%;
+    border-top-left-radius: 8px;
+    border-bottom-left-radius: 8px;
+  }
+  .header-searchForm button {
+    width: 56px;
+    height: 48px;
+    border-top-right-radius: 8px;
+    border-bottom-right-radius: 8px;
+  }
+
+  
+
+  
+  
