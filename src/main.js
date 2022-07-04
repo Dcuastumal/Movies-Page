@@ -1,3 +1,4 @@
+//Declaramos propiedades bases con Axios
 const api = axios.create({
     baseURL: 'https://api.themoviedb.org/3/',
     headers: {
@@ -15,7 +16,7 @@ async function  getTrendingMoviesPreview() {
     const movies = data.results;
 
     movies.forEach(movie => {
-        const trendinPreviewMoviesContainer = document.querySelector('#trendingPreview .trendingPreview-movieList');
+        const trendingMoviesPreviewList = document.querySelector('#trendingPreview .trendingPreview-movieList');
 
         const movieContainer = document.createElement('div');
         movieContainer.classList.add('movie-container');
@@ -26,7 +27,7 @@ async function  getTrendingMoviesPreview() {
         movieImg.setAttribute('src', 'https://image.tmdb.org/t/p/w300/' + movie.poster_path);
 
         movieContainer.appendChild(movieImg);
-        trendinPreviewMoviesContainer.appendChild(movieContainer);
+        trendingMoviesPreviewList.appendChild(movieContainer);
     });
 }
 
@@ -35,9 +36,9 @@ async function  getCategoriesPreview() {
     //Consumimos esta API con axios
     const {data} = await api('genre/movie/list'); //genre/movie/list Parametros que da la documentacion
     const categories = data.genres;
-    
+
     categories.forEach(category => {
-        const categoryPreviewMoviesContainer = document.querySelector('#categoriesPreview .categoriesPreview-list');
+        const categoriesPreviewList = document.querySelector('#categoriesPreview .categoriesPreview-list');
 
         const categoryContainer = document.createElement('div');
         categoryContainer.classList.add('category-container');
@@ -49,10 +50,7 @@ async function  getCategoriesPreview() {
 
         categoryTitle.appendChild(categoryTitleText);
         categoryContainer.appendChild(categoryTitle);
-        categoryPreviewMoviesContainer.appendChild(categoryContainer);
-
+        categoriesPreviewList.appendChild(categoryContainer);
     });
 }
 
-getCategoriesPreview();
-getTrendingMoviesPreview();

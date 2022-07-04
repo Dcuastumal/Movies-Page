@@ -14,13 +14,13 @@
 </head>
 <body>
     <header id="header" class="header-container">
-        <span class="header-arrow inactive">&lt;</span>
+        <span id="header-arrow" class="header-arrow inactive">&lt;</span>
         <h1 class="header-title">Movie Star</h1>
         <h1 class="header-title header-title--categoryView inactive">Action</h1>
     
         <form id="searchForm" class="header-searchForm">
           <input type="text" placeholder="Find Movies" />
-          <button>🔍</button>
+          <button id="searchBtn">🔍</button>
         </form>
     </header>
     
@@ -133,6 +133,8 @@
 
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="./src/apiKey.js"></script>
+    <script src="./src/nodes.js"></script>
     <script src="./src/main.js"></script>
+    <script src="./src/navigation.js"></script>
 </body>
 </html>
