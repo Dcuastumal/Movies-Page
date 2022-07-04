@@ -1,4 +1,5 @@
 //Declaramos propiedades bases con Axios
+const API_KEY = '416c4eb7ed48b7d9f2f543bd1bf36b6d';
 const api = axios.create({
     baseURL: 'https://api.themoviedb.org/3/',
     headers: {
