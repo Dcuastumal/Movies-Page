@@ -25,7 +25,8 @@ function navigator() {
     } else {
         homePage();
     }
-    location.hash   
+    document.body.scrollTop = 0;
+    document.documentElement.scrollTop = 0; //   
 }
 
 function homePage() {

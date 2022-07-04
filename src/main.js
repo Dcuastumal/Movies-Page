@@ -1,21 +1,19 @@
 //Declaramos propiedades bases con Axios
+const API_KEY = '416c4eb7ed48b7d9f2f543bd1bf36b6d';
 const api = axios.create({
     baseURL: 'https://api.themoviedb.org/3/',
     headers: {
         'Content-Type': 'application/json;charset-utf-8'
     },
     params: {
-        'api_key': '416c4eb7ed48b7d9f2f543bd1bf36b6d',
+        'api_key': API_KEY,
     },
 })
 
-//Trending Movies: manipulacion dinamica para el slider 
-async function  getTrendingMoviesPreview() {
-    //Consumimos esta API con axios
-    const {data} = await api('trending/movie/day') ///trending/{media_type}/{time_window} Esto esta en la API seccion tendencia
-    const movies = data.results;
+//Utils (Reutilizar Codigo)
+function createMovies(movies, container) {
 
-    trendingMoviesPreviewList.innerHTML = ''; //Limpiando cache para volverlo a cargar con el forEach (Esto se hace para que no exista carga repetida)
+    container.innerHTML = ''; //Limpiando cache para volverlo a cargar con el forEach (Esto se hace para que no exista carga repetida)
 
     movies.forEach(movie => {
 
@@ -28,17 +26,12 @@ async function  getTrendingMoviesPreview() {
         movieImg.setAttribute('src', 'https://image.tmdb.org/t/p/w300/' + movie.poster_path);
 
         movieContainer.appendChild(movieImg);
-        trendingMoviesPreviewList.appendChild(movieContainer);
+        container.appendChild(movieContainer);
     });
 }
 
-//Category: manipulacion dinamica para agregar una seccion de categorias
-async function  getCategoriesPreview() {
-    //Consumimos esta API con axios
-    const {data} = await api('genre/movie/list'); //genre/movie/list Parametros que da la documentacion
-    const categories = data.genres;
-
-    categoriesPreviewList.innerHTML = ''; //Limpiando cache para volverlo a cargar con el forEach (Esto se hace para que no exista carga repetida)
+function createCategories(categories, container) {
+    container.innerHTML = ''; //Limpiando cache para volverlo a cargar con el forEach (Esto se hace para que no exista carga repetida)
     
     categories.forEach(category => {
 
@@ -55,10 +48,30 @@ async function  getCategoriesPreview() {
 
         categoryTitle.appendChild(categoryTitleText);
         categoryContainer.appendChild(categoryTitle);
-        categoriesPreviewList.appendChild(categoryContainer);
+        container.appendChild(categoryContainer);
     });
 }
 
+//Llamados a la API
+//Trending Movies: manipulacion dinamica para el slider 
+async function  getTrendingMoviesPreview() {
+    //Consumimos esta API con axios
+    const {data} = await api('trending/movie/day') ///trending/{media_type}/{time_window} Esto esta en la API seccion tendencia
+    const movies = data.results;
+
+    createMovies(movies, trendingMoviesPreviewList); //Llamando a la funcion createMovies para reutilizar codigo
+}
+
+//Category: manipulacion dinamica para agregar una seccion de categorias
+async function  getCategoriesPreview() {
+    //Consumimos esta API con axios
+    const {data} = await api('genre/movie/list'); //genre/movie/list Parametros que da la documentacion
+    const categories = data.genres;
+
+    createCategories(categories, categoriesPreviewList);
+}
+
+//Llamar peliculas por categoria
 async function  getMoviesByCategory(id) {
     //Consumimos esta API con axios
     const {data} = await api('discover/movie', { //discover/movie para filtrar peliculas por genero
@@ -68,19 +81,5 @@ async function  getMoviesByCategory(id) {
     }) 
     const movies = data.results;
 
-    genericSection.innerHTML = ''; //Limpiando cache para volverlo a cargar con el forEach (Esto se hace para que no exista carga repetida)
-
-    movies.forEach(movie => {
-
-        const movieContainer = document.createElement('div');
-        movieContainer.classList.add('movie-container');
-
-        const movieImg = document.createElement('img');
-        movieImg.classList.add('movie-img');
-        movieImg.setAttribute('alt', movie.title);
-        movieImg.setAttribute('src', 'https://image.tmdb.org/t/p/w300/' + movie.poster_path);
-
-        movieContainer.appendChild(movieImg);
-        genericSection.appendChild(movieContainer);
-    });
+    createMovies(movies, genericSection); //Llamando a la funcion createMovies para reutilizar codigo
 }
