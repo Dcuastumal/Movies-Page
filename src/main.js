@@ -15,8 +15,9 @@ async function  getTrendingMoviesPreview() {
     const {data} = await api('trending/movie/day') ///trending/{media_type}/{time_window} Esto esta en la API seccion tendencia
     const movies = data.results;
 
+    trendingMoviesPreviewList.innerHTML = ''; //Limpiando cache para volverlo a cargar con el forEach (Esto se hace para que no exista carga repetida)
+
     movies.forEach(movie => {
-        const trendingMoviesPreviewList = document.querySelector('#trendingPreview .trendingPreview-movieList');
 
         const movieContainer = document.createElement('div');
         movieContainer.classList.add('movie-container');
@@ -37,8 +38,9 @@ async function  getCategoriesPreview() {
     const {data} = await api('genre/movie/list'); //genre/movie/list Parametros que da la documentacion
     const categories = data.genres;
 
+    categoriesPreviewList.innerHTML = ''; //Limpiando cache para volverlo a cargar con el forEach (Esto se hace para que no exista carga repetida)
+    
     categories.forEach(category => {
-        const categoriesPreviewList = document.querySelector('#categoriesPreview .categoriesPreview-list');
 
         const categoryContainer = document.createElement('div');
         categoryContainer.classList.add('category-container');
