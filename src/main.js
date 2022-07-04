@@ -83,3 +83,16 @@ async function  getMoviesByCategory(id) {
 
     createMovies(movies, genericSection); //Llamando a la funcion createMovies para reutilizar codigo
 }
+
+//Buscador de peliculas
+async function  getMoviesBySearch(query) {
+    //Consumimos esta API con axios
+    const {data} = await api('search/movie', { //discover/movie para filtrar peliculas por genero
+        params: {
+            query,
+        },
+    }) 
+    const movies = data.results;
+
+    createMovies(movies, genericSection); //Llamando a la funcion createMovies para reutilizar codigo
+}
