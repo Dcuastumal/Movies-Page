@@ -87,11 +87,20 @@ async function  getMoviesByCategory(id) {
 //Buscador de peliculas
 async function  getMoviesBySearch(query) {
     //Consumimos esta API con axios
-    const {data} = await api('search/movie', { //discover/movie para filtrar peliculas por genero
+    const {data} = await api('search/movie', { //discover/movie para hacer la busqueda de peliculas
         params: {
             query,
         },
     }) 
+    const movies = data.results;
+
+    createMovies(movies, genericSection); //Llamando a la funcion createMovies para reutilizar codigo
+}
+
+//seccion de Tendencia
+async function  getTrendingMovies() {
+    //Consumimos esta API con axios
+    const {data} = await api('trending/movie/day') ///trending/{media_type}/{time_window} Esto esta en la API seccion tendencia
     const movies = data.results;
 
     createMovies(movies, genericSection); //Llamando a la funcion createMovies para reutilizar codigo

@@ -5,7 +5,8 @@ trendingBtn.addEventListener('click', () => {
     location.hash = '#trends'; 
 });
 arrowBtn.addEventListener('click', () => {
-    location.hash = '#home'
+    history.back(); //Para generar un historial de navegacion
+    //location.hash = '#home'
 });
 
 window.addEventListener('DOMContentLoaded', navigator, false); //DOMContentLoaded: sirve para realizar acciones cuando el DOM ha terminado de cargar y se encuentra listo
@@ -69,8 +70,9 @@ function categoriesPage() {
 
     const [_, categoryData] = location.hash.split('='); // ['#category', id-name] Esto es lo que nos devuelve para getMoviesByCategories
     const [categoryId, categoryName] = categoryData.split('-');
+    const newName = categoryName.replace('%20', ' '); //Quita el %20 y dejarlo como un espacio " "
 
-    headerCategoryTitle.innerHTML = categoryName;  //Cuando cambiemos de categoria aparezca el nombre de la categoria como h3
+    headerCategoryTitle.innerHTML = newName;  //Cuando cambiemos de categoria aparezca el nombre de la categoria como h3
 
     getMoviesByCategory(categoryId);
 }
@@ -100,7 +102,7 @@ function searchPage() {
     arrowBtn.classList.add('header-arrow');
     arrowBtn.classList.remove('header-arrow--white');
     headerTitle.classList.add('inactive');
-    headerCategoryTitle.classList.add('inactive');
+    headerCategoryTitle.classList.remove('inactive');
     searchForm.classList.remove('inactive');
 
     trendingPreviewSection.classList.add('inactive');
@@ -109,7 +111,10 @@ function searchPage() {
     movieDetailSection.classList.add('inactive');
 
     // [Search, Buscado]
-    const [_, query] = location.hash.split('=');
+    const [_, query] = location.hash.split('='); //Haciendo split de los hash en un array 
+    const newName = query.replace('%20', ' ')  //Quita el %20 y dejarlo como un espacio " "
+    headerCategoryTitle.innerHTML = `You search '${newName}'`;
+
     getMoviesBySearch(query);
 }
 function trendsPage() {
@@ -128,4 +133,7 @@ function trendsPage() {
     categoriesPreviewSection.classList.add('inactive');
     genericSection.classList.remove('inactive');
     movieDetailSection.classList.add('inactive');
+
+    headerCategoryTitle.innerHTML = 'Trending';
+    getTrendingMovies();
 }
