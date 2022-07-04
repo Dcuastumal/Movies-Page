@@ -32,7 +32,18 @@
   .header-arrow--white {
     color: var(--blue-light-1);
   }
-  
+
+  #header-equis {
+    position: absolute;
+    font-weight: var(--font-weight-text2);
+    font-size: 25px;
+    cursor: pointer;
+    display: inline-block;
+    left: 85%;
+    top: 53px;
+    color: var(--blue-light-1);
+  }
+
   .header-searchForm {
     display: flex;
     align-items: center;

@@ -8,6 +8,9 @@ arrowBtn.addEventListener('click', () => {
     history.back(); //Para generar un historial de navegacion
     //location.hash = '#home'
 });
+/*equixBtn.addEventListener('click', () => {
+    location.hash = '#home'; //Para devolverse a home
+});*/
 
 window.addEventListener('DOMContentLoaded', navigator, false); //DOMContentLoaded: sirve para realizar acciones cuando el DOM ha terminado de cargar y se encuentra listo
 window.addEventListener('hashchange', navigator, false); //El evento hashchange es ejecutado cuando el fragmento identificador de la URL ha cambiado (la parte de la URL que continúa despues del simbolo #, incluyendo el símbolo #).
@@ -29,7 +32,6 @@ function navigator() {
     document.body.scrollTop = 0;
     document.documentElement.scrollTop = 0; //   
 }
-
 function homePage() {
     console.log('HOME');
 
@@ -84,6 +86,7 @@ function moviePage() {
     arrowBtn.classList.remove('inactive');
     arrowBtn.classList.add('header-arrow');
     arrowBtn.classList.add('header-arrow--white');
+    /*equixBtn.classList.remove('inactive')*/
     headerTitle.classList.add('inactive');
     headerCategoryTitle.classList.add('inactive');
     searchForm.classList.remove('header-searchForm');
