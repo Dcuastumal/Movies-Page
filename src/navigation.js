@@ -65,6 +65,13 @@ function categoriesPage() {
     categoriesPreviewSection.classList.add('inactive');
     genericSection.classList.remove('inactive');
     movieDetailSection.classList.add('inactive');
+
+    const [_, categoryData] = location.hash.split('='); // ['#category', id-name] Esto es lo que nos devuelve para getMoviesByCategories
+    const [categoryId, categoryName] = categoryData.split('-');
+
+    headerCategoryTitle.innerHTML = categoryName;  //Cuando cambiemos de categoria aparezca el nombre de la categoria como h3
+
+    getMoviesByCategory(categoryId);
 }
 function moviePage() {
     console.log('MOVIE');
