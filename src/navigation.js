@@ -82,7 +82,8 @@ function moviePage() {
     headerSection.classList.add('header-container--long');
     //headerSection.style.background = '';
     arrowBtn.classList.remove('inactive');
-    arrowBtn.classList.add('header-arrow--white'); header-searchForm 
+    arrowBtn.classList.add('header-arrow');
+    arrowBtn.classList.add('header-arrow--white');
     headerTitle.classList.add('inactive');
     headerCategoryTitle.classList.add('inactive');
     searchForm.classList.remove('header-searchForm');
@@ -92,6 +93,10 @@ function moviePage() {
     categoriesPreviewSection.classList.add('inactive');
     genericSection.classList.add('inactive');
     movieDetailSection.classList.remove('inactive');
+
+    //[#hash, id]
+    const [_, movieId] = location.hash.split('=')
+    getMovieById(movieId);
 }
 function searchPage() {
     console.log('SEARCH');
