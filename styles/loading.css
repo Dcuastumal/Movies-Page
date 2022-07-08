@@ -1,6 +1,6 @@
 /* Shared Loading - Estilos Compartidos de carga */
 
-.movie-container--loading {
+.movie-container--loading {  
     background: var(--blue-light-2);
     border-radius: 8px;
     height: 225px;

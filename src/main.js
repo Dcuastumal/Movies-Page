@@ -11,7 +11,17 @@ const api = axios.create({
 })
 
 //Utils (Reutilizar Codigo)
-function createMovies(movies, container) {
+
+const lazyLoader = new IntersectionObserver((entries) => { //(callback, options) Se utilizaria para crear un observador para cada distinto contenedor
+    entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+            const url = entry.target.getAttribute('data-img');
+            entry.target.setAttribute('src', url);
+        }
+    })
+}) 
+
+function createMovies(movies, container, lazyLoad = false) {
 
     container.innerHTML = ''; //Limpiando cache para volverlo a cargar con el forEach (Esto se hace para que no exista carga repetida)
 
@@ -26,7 +36,11 @@ function createMovies(movies, container) {
         const movieImg = document.createElement('img');
         movieImg.classList.add('movie-img');
         movieImg.setAttribute('alt', movie.title);
-        movieImg.setAttribute('src', 'https://image.tmdb.org/t/p/w300/' + movie.poster_path);
+        movieImg.setAttribute( lazyLoad ? 'data-img' : 'src', 'https://image.tmdb.org/t/p/w300/' + movie.poster_path);
+
+        if (lazyLoad) {
+            lazyLoader.observe(movieImg);
+        }
 
         movieContainer.appendChild(movieImg);
         container.appendChild(movieContainer);
@@ -62,7 +76,7 @@ async function  getTrendingMoviesPreview() {
     const {data} = await api('trending/movie/day') ///trending/{media_type}/{time_window} Esto esta en la API seccion tendencia
     const movies = data.results;
 
-    createMovies(movies, trendingMoviesPreviewList); //Llamando a la funcion createMovies para reutilizar codigo
+    createMovies(movies, trendingMoviesPreviewList, true); //Llamando a la funcion createMovies para reutilizar codigo
 }
 
 //Category: manipulacion dinamica para agregar una seccion de categorias
