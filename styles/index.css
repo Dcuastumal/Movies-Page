@@ -1,7 +1,9 @@
 /* Import */
+@import url(./loading.css);
+@import url(./header.css);
 @import url(./main.css);
 @import url(./footer.css);
-@import url(./header.css);
+
 
 /* General */
 * { box-sizing: border-box; }
