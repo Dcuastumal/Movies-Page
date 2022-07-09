@@ -37,6 +37,10 @@ function createMovies(movies, container, lazyLoad = false) {
         movieImg.classList.add('movie-img');
         movieImg.setAttribute('alt', movie.title);
         movieImg.setAttribute( lazyLoad ? 'data-img' : 'src', 'https://image.tmdb.org/t/p/w300/' + movie.poster_path);
+        movieImg.addEventListener('error', () => {
+            movieImg.setAttribute('src', 'https://static.vecteezy.com/system/resources/previews/004/606/756/non_2x/icon-error-outline-long-shadow-style-simple-illustration-editable-stroke-free-vector.jpg');
+        });
+        
 
         if (lazyLoad) {
             lazyLoader.observe(movieImg);
@@ -98,7 +102,7 @@ async function  getMoviesByCategory(id) {
     }) 
     const movies = data.results;
 
-    createMovies(movies, genericSection); //Llamando a la funcion createMovies para reutilizar codigo
+    createMovies(movies, genericSection, true); //Llamando a la funcion createMovies para reutilizar codigo
 }
 
 //Buscador de peliculas
