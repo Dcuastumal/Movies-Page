@@ -120,25 +120,36 @@ async function  getMoviesBySearch(query) {
     createMovies(movies, genericSection); //Llamando a la funcion createMovies para reutilizar codigo
 }
 
+
 //seccion de Tendencia
-async function  getTrendingMovies(page = 1) { //Declaramos la variable page = 1 (Primera Pagina)
-    //Consumimos esta API con axios
-    const {data} = await api('trending/movie/day', {
-        params: {
-            page, //La API nos permite poner o cambiar una pagina en este caso estamos llamando a la variable declarada y a su vez llamando al parametro page
-        }
-    }) ///trending/{media_type}/{time_window} Esto esta en la API seccion tendencia
+async function  getTrendingMovies() { //Declaramos la variable page = 1 (Primera Pagina)
+    const { data } = await api('trending/movie/day');
     const movies = data.results;
 
-    createMovies(movies, genericSection, {lazyLoad: true, clean: page == 1}); //llamamos a la funcion para reutilizar y a su vez le damos valores booleanos a clean y lazyLoad sin borrar la primera pagina
-    
-    const btnLoadMore = document.createElement('button'); //creamos un boton
-    btnLoadMore.innerText = 'More'; //Le damos un texto al boton
-    btnLoadMore.addEventListener('click', () => { //Escuchamos al boton para cuando haga click y creamos una funcion cuando esto suceda
-        btnLoadMore.style.display = 'none'; //Al boton le damos un estilo css de display = none; es decir que desaparezca una vez se le de click
-        getTrendingMovies(page + 1); // y volvemos a llamar a esta misma funcion sumandole 1 a el parametro 'page'
+    createMovies(movies, genericSection, { lazyLoad: true, clean: true });
+}
+
+//Scroll para tendencias
+async function getPaginatedTrendingMovies() {
+    const { scrollTop, scrollHeight, clientHeight} = document.documentElement;
+
+    const scrollIsBottom = (scrollTop + clientHeight) >= (scrollHeight - 15);
+
+  if (scrollIsBottom) {
+    page++;
+    const { data } = await api('trending/movie/day', {
+      params: {
+        page,
+      },
     });
-    genericSection.appendChild(btnLoadMore); //Insertamos en "genericSection" el boton (btnLoadMore)
+    const movies = data.results;
+
+    createMovies(
+      movies,
+      genericSection,
+      { lazyLoad: true, clean: false },
+    );
+  }
 }
 
 //seccion de informacion de peliculas

@@ -1,3 +1,6 @@
+let page = 1;
+let infiniteScroll;
+
 searchFormBtn.addEventListener('click', () => {
     location.hash = '#search=' + searchFormInput.value; //Usamos #hash para navegar
 });
@@ -14,9 +17,15 @@ arrowBtn.addEventListener('click', () => {
 
 window.addEventListener('DOMContentLoaded', navigator, false); //DOMContentLoaded: sirve para realizar acciones cuando el DOM ha terminado de cargar y se encuentra listo
 window.addEventListener('hashchange', navigator, false); //El evento hashchange es ejecutado cuando el fragmento identificador de la URL ha cambiado (la parte de la URL que continúa despues del simbolo #, incluyendo el símbolo #).
+window.addEventListener('scroll', infiniteScroll, false); //Estamos escuchando en la pagina el evento scroll y llamando a la funcion infiniteScroll una vez suceda eso
 
 function navigator() {
     console.log({location});
+
+    if (infiniteScroll) {
+        window.removeEventListener('scroll', infiniteScroll, {passive: false}); //Cada vez que llamemos a la funciona navigator quitemos el listener y lo cambiemos
+        infiniteScroll = undefined;
+    }
 
     if (location.hash.startsWith('#trends')) {
         trendsPage();
@@ -30,7 +39,11 @@ function navigator() {
         homePage();
     }
     document.body.scrollTop = 0;
-    document.documentElement.scrollTop = 0; //   
+    document.documentElement.scrollTop = 0; 
+
+    if (infiniteScroll) {
+        window.addEventListener('scroll', infiniteScroll, {passive: false}); //Preguntamos si agregamos el infitneScroll en alguna funcion y asiganamos este codigo
+    }
 }
 function homePage() {
     console.log('HOME');
@@ -144,4 +157,6 @@ function trendsPage() {
 
     headerCategoryTitle.innerHTML = 'Trending';
     getTrendingMovies();
+
+    infiniteScroll = getPaginatedTrendingMovies; //Le declaramos a la variable la funcion de getPaginatedTrendingMovies Que tiene el infineScroll
 }
