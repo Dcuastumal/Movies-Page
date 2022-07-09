@@ -21,9 +21,11 @@ const lazyLoader = new IntersectionObserver((entries) => { //(callback, options)
     })
 }) 
 
-function createMovies(movies, container, lazyLoad = false) {
+function createMovies(movies, container, {lazyLoad = false, clean = true} = {},) { //Creamos un clean para borrar todo el html
 
-    container.innerHTML = ''; //Limpiando cache para volverlo a cargar con el forEach (Esto se hace para que no exista carga repetida)
+    if (clean) { //si es verdad eliminara la carga repetida
+        container.innerHTML = ''; //Limpiando cache para volverlo a cargar con el forEach (Esto se hace para que no exista carga repetida)
+    }
 
     movies.forEach(movie => {
 
@@ -119,13 +121,26 @@ async function  getMoviesBySearch(query) {
 }
 
 //seccion de Tendencia
-async function  getTrendingMovies() {
+async function  getTrendingMovies(page = 1) { //Declaramos la variable page = 1 (Primera Pagina)
     //Consumimos esta API con axios
-    const {data} = await api('trending/movie/day') ///trending/{media_type}/{time_window} Esto esta en la API seccion tendencia
+    const {data} = await api('trending/movie/day', {
+        params: {
+            page, //La API nos permite poner o cambiar una pagina en este caso estamos llamando a la variable declarada y a su vez llamando al parametro page
+        }
+    }) ///trending/{media_type}/{time_window} Esto esta en la API seccion tendencia
     const movies = data.results;
 
-    createMovies(movies, genericSection); //Llamando a la funcion createMovies para reutilizar codigo
+    createMovies(movies, genericSection, {lazyLoad: true, clean: page == 1}); //llamamos a la funcion para reutilizar y a su vez le damos valores booleanos a clean y lazyLoad sin borrar la primera pagina
+    
+    const btnLoadMore = document.createElement('button'); //creamos un boton
+    btnLoadMore.innerText = 'More'; //Le damos un texto al boton
+    btnLoadMore.addEventListener('click', () => { //Escuchamos al boton para cuando haga click y creamos una funcion cuando esto suceda
+        btnLoadMore.style.display = 'none'; //Al boton le damos un estilo css de display = none; es decir que desaparezca una vez se le de click
+        getTrendingMovies(page + 1); // y volvemos a llamar a esta misma funcion sumandole 1 a el parametro 'page'
+    });
+    genericSection.appendChild(btnLoadMore); //Insertamos en "genericSection" el boton (btnLoadMore)
 }
+
 //seccion de informacion de peliculas
 async function  getMovieById(id) {
     //Consumimos esta API con axios
