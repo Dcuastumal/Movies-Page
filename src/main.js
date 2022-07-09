@@ -144,11 +144,7 @@ async function getPaginatedTrendingMovies() {
     });
     const movies = data.results;
 
-    createMovies(
-      movies,
-      genericSection,
-      { lazyLoad: true, clean: false },
-    );
+    createMovies(movies, genericSection, { lazyLoad: true, clean: false },);
   }
 }
 
