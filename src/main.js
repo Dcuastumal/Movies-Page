@@ -103,8 +103,34 @@ async function  getMoviesByCategory(id) {
         },
     }) 
     const movies = data.results;
+    maxPage = data.total_pages; //Se almacena en la variable el numero total de paginas
 
-    createMovies(movies, genericSection, true); //Llamando a la funcion createMovies para reutilizar codigo
+    createMovies(movies, genericSection, {lazyLoad: true}); //Llamando a la funcion createMovies para reutilizar codigo
+}
+
+//Scroll infinito las peliculas por categoria
+function getPaginatedMoviesByCategory(id) {
+    return async function () {
+        const { scrollTop, scrollHeight, clientHeight} = document.documentElement;
+
+        const scrollIsBottom = (scrollTop + clientHeight) >= (scrollHeight - 15);
+
+        const pageIsNotMax = page < maxPage ; //Validamos que la pagina sea menor que el numero total de paginas
+
+        if (scrollIsBottom && pageIsNotMax) { //Validamos el scrollIsBottom y que la pagina que se mostro sea menor que el numero total de paginas
+            page++;
+            const { data } = await api('discover/movie', {
+                params: {
+                    with_genres: id,
+                    page,
+                },
+            });
+            const movies = data.results;
+
+            createMovies(movies, genericSection, { lazyLoad: true, clean: false },);
+            
+        }
+    }
 }
 
 //Buscador de peliculas
@@ -116,21 +142,46 @@ async function  getMoviesBySearch(query) {
         },
     }) 
     const movies = data.results;
+    maxPage = data.total_pages; //Se almacena en la variable el numero total de paginas
+    console.log(maxPage)
 
     createMovies(movies, genericSection); //Llamando a la funcion createMovies para reutilizar codigo
 }
 
+//Scroll infinito para Search
+function getPaginatedMoviesBySearch(query) {
+    return async function () {
+        const { scrollTop, scrollHeight, clientHeight} = document.documentElement;
+
+        const scrollIsBottom = (scrollTop + clientHeight) >= (scrollHeight - 15);
+
+        const pageIsNotMax = page < maxPage ; //Validamos que la pagina sea menor que el numero total de paginas
+
+        if (scrollIsBottom && pageIsNotMax) { //Validamos el scrollIsBottom y que la pagina que se mostro sea menor que el numero total de paginas
+            page++;
+            const { data } = await api('search/movie', {
+                params: {
+                    query,
+                    page,
+                },
+            });
+            const movies = data.results;
+
+            createMovies(movies, genericSection, { lazyLoad: true, clean: false },);
+        }
+    }
+}
 
 //seccion de Tendencia
 async function  getTrendingMovies() { //Declaramos la variable page = 1 (Primera Pagina)
     const { data } = await api('trending/movie/day');
     const movies = data.results;
-    maxPage = data.total_pages; //dando valor a una variable del numero total de paginas que tiene tendencias
+    maxPage = data.total_pages; ////Se almacena en la variable el numero total de paginas
 
     createMovies(movies, genericSection, { lazyLoad: true, clean: true });
 }
 
-//Scroll para tendencias
+//Scroll infinito para tendencias
 async function getPaginatedTrendingMovies() {
     const { scrollTop, scrollHeight, clientHeight} = document.documentElement;
 

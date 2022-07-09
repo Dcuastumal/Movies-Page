@@ -91,6 +91,8 @@ function categoriesPage() {
     headerCategoryTitle.innerHTML = newName;  //Cuando cambiemos de categoria aparezca el nombre de la categoria como h3
 
     getMoviesByCategory(categoryId);
+
+    infiniteScroll = getPaginatedMoviesByCategory(categoryId);
 }
 function moviePage() {
     console.log('MOVIE');
@@ -138,6 +140,8 @@ function searchPage() {
     headerCategoryTitle.innerHTML = `You search '${newName}'`;
 
     getMoviesBySearch(query);
+
+    infiniteScroll = getPaginatedMoviesBySearch(query);
 }
 function trendsPage() {
     console.log('TRENDS!');
