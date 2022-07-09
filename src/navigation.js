@@ -1,3 +1,4 @@
+let maxPage; //declarando una variable para almacenar el numero total de paginas
 let page = 1;
 let infiniteScroll;
 
