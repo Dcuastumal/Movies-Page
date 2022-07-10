@@ -1,3 +1,4 @@
+//Data
 //Declaramos propiedades bases con Axios
 const API_KEY = '416c4eb7ed48b7d9f2f543bd1bf36b6d';
 const api = axios.create({
@@ -9,6 +10,31 @@ const api = axios.create({
         'api_key': API_KEY,
     },
 })
+
+function likedMoviesList() {
+    const item = JSON.parse(localStorage.getItem('liked_movies'));
+    let movies;
+
+    if (item) {
+        movies = item;
+    } else {
+        movies = {};
+    }
+
+    return movies;
+}
+
+function likeMovie(movie) {
+    const likedMovies = likedMoviesList();
+
+    if (likedMovies[movie.id]) {
+        likedMovies[movie.id] = undefined;
+    } else {
+        likedMovies[movie.id] = movie;
+    }
+
+    localStorage.setItem('liked_movies', JSON.stringify(likedMovies));
+}
 
 //Utils (Reutilizar Codigo)
 
@@ -47,6 +73,7 @@ function createMovies(movies, container, {lazyLoad = false, clean = true} = {},)
         movieBtn.classList.add('movie-btn')
         movieBtn.addEventListener('click', () => {
             movieBtn.classList.toggle('movie-btn--liked')
+            likeMovie(movie);
         });
 
         if (lazyLoad) {
