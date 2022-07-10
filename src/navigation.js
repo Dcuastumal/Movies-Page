@@ -21,7 +21,6 @@ window.addEventListener('hashchange', navigator, false); //El evento hashchange 
 window.addEventListener('scroll', infiniteScroll, false); //Estamos escuchando en la pagina el evento scroll y llamando a la funcion infiniteScroll una vez suceda eso
 
 function navigator() {
-    console.log({location});
 
     if (infiniteScroll) {
         window.removeEventListener('scroll', infiniteScroll, {passive: false}); //Cada vez que llamemos a la funciona navigator quitemos el listener y lo cambiemos
@@ -47,7 +46,6 @@ function navigator() {
     }
 }
 function homePage() {
-    console.log('HOME');
 
     headerSection.classList.remove('header-container--long');
     headerSection.style.background = '';
@@ -70,7 +68,6 @@ function homePage() {
     getLikedMovies();
 }
 function categoriesPage() {
-    console.log('CATEGORIES!');
 
     headerSection.classList.remove('header-container--long');
     headerSection.style.background = '';
@@ -98,7 +95,6 @@ function categoriesPage() {
     infiniteScroll = getPaginatedMoviesByCategory(categoryId);
 }
 function moviePage() {
-    console.log('MOVIE');
 
     headerSection.classList.add('header-container--long');
     //headerSection.style.background = '';
@@ -122,7 +118,6 @@ function moviePage() {
     getMovieById(movieId);
 }
 function searchPage() {
-    console.log('SEARCH');
 
     headerSection.classList.remove('header-container--long');
     headerSection.style.background = '';
@@ -149,7 +144,6 @@ function searchPage() {
     infiniteScroll = getPaginatedMoviesBySearch(query);
 }
 function trendsPage() {
-    console.log('TRENDS!');
 
     headerSection.classList.remove('header-container--long');
     headerSection.style.background = '';
