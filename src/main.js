@@ -31,24 +31,30 @@ function createMovies(movies, container, {lazyLoad = false, clean = true} = {},)
 
         const movieContainer = document.createElement('div');
         movieContainer.classList.add('movie-container');
-        movieContainer.addEventListener('click', () => {
-            location.hash = '#movie=' + movie.id;
-        })
 
         const movieImg = document.createElement('img');
         movieImg.classList.add('movie-img');
         movieImg.setAttribute('alt', movie.title);
         movieImg.setAttribute( lazyLoad ? 'data-img' : 'src', 'https://image.tmdb.org/t/p/w300/' + movie.poster_path);
+        movieImg.addEventListener('click', () => {
+            location.hash = '#movie=' + movie.id;
+        });
         movieImg.addEventListener('error', () => {
             movieImg.setAttribute('src', 'https://static.vecteezy.com/system/resources/previews/004/606/756/non_2x/icon-error-outline-long-shadow-style-simple-illustration-editable-stroke-free-vector.jpg');
         });
         
+        const movieBtn = document.createElement('button');
+        movieBtn.classList.add('movie-btn')
+        movieBtn.addEventListener('click', () => {
+            movieBtn.classList.toggle('movie-btn--liked')
+        });
 
         if (lazyLoad) {
             lazyLoader.observe(movieImg);
         }
 
         movieContainer.appendChild(movieImg);
+        movieContainer.appendChild(movieBtn);
         container.appendChild(movieContainer);
     });
 }
@@ -145,7 +151,7 @@ async function  getMoviesBySearch(query) {
     maxPage = data.total_pages; //Se almacena en la variable el numero total de paginas
     console.log(maxPage)
 
-    createMovies(movies, genericSection); //Llamando a la funcion createMovies para reutilizar codigo
+    createMovies(movies, genericSection, {lazyLoad: true}); //Llamando a la funcion createMovies para reutilizar codigo
 }
 
 //Scroll infinito para Search
@@ -178,7 +184,7 @@ async function  getTrendingMovies() { //Declaramos la variable page = 1 (Primera
     const movies = data.results;
     maxPage = data.total_pages; ////Se almacena en la variable el numero total de paginas
 
-    createMovies(movies, genericSection, { lazyLoad: true, clean: true });
+    createMovies(movies, genericSection, { lazyLoad: true});
 }
 
 //Scroll infinito para tendencias
@@ -192,14 +198,14 @@ async function getPaginatedTrendingMovies() {
     if (scrollIsBottom && pageIsNotMax) { //Validamos el scrollIsBottom y que la pagina que se mostro sea menor que el numero total de paginas
         page++;
         const { data } = await api('trending/movie/day', {
-        params: {
+            params: {
             page,
-        },
-    });
+            },
+        });
     const movies = data.results;
 
     createMovies(movies, genericSection, { lazyLoad: true, clean: false },);
-  }
+    }
 }
 
 //seccion de informacion de peliculas
